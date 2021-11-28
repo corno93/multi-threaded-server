@@ -1,8 +1,8 @@
+use multi_threaded_server::ThreadPool;
+use std::fs;
 use std::io::prelude::*;
 use std::net::TcpListener;
 use std::net::TcpStream;
-use std::fs;
-use multi_threaded_server::ThreadPool;
 use std::thread;
 use std::time::Duration;
 
@@ -31,7 +31,7 @@ fn handle_connection(mut stream: TcpStream) {
 
     let (status_line, filename) = if buffer.starts_with(get) {
         ("HTTP/1.1 200 OK", "hello.html")
-    } else if buffer.starts_with(sleep){
+    } else if buffer.starts_with(sleep) {
         thread::sleep(Duration::from_secs(5));
         ("HTTP/1.1 200 OK", "hello.html")
     } else {
@@ -54,5 +54,4 @@ fn handle_connection(mut stream: TcpStream) {
     stream.write(response.as_bytes()).unwrap();
     // Flush will wait and prevent the program from continuing until all the bytes are written to the connection
     stream.flush().unwrap();
-
 }
